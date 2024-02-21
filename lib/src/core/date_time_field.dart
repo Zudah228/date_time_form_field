@@ -142,21 +142,23 @@ class _FieldState extends State<_Field> {
     return TextField(
       controller: textEditingController,
       restorationId: widget.restorationId,
-      decoration: widget.decoration.copyWith(errorText: errorText),
+      decoration: widget.decoration.copyWith(
+        errorText: errorText ?? widget.decoration.errorText,
+      ),
       keyboardType: TextInputType.datetime,
       onChanged: (value) {
         final changed = _convert(value);
         widget.onChanged(changed);
 
         // validation
-        if (changed == null) {
-          setState(() {
+        setState(() {
+          if (changed == null) {
             errorText =
                 MaterialLocalizations.of(context).invalidDateFormatLabel;
-          });
-        } else {
-          errorText = null;
-        }
+          } else {
+            errorText = null;
+          }
+        });
       },
     );
   }
