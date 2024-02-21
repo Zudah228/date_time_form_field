@@ -95,18 +95,23 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: DateTimeFormField(),
                     ),
                     _ListItem(
-                      title: 'Set initialValue',
+                      title: 'Cupertino picker',
+                      child: DateTimeFormField.cupertinoPicker(),
+                    ),
+                    _ListItem(
+                      title: 'Material picker',
                       child: DateTimeFormField.materialPicker(
-                        initialValue: now,
                         firstDate: firstDate,
                         lastDate: lastDate,
                       ),
                     ),
                     _ListItem(
+                      title: 'Set initialValue',
+                      child: DateTimeFormField(initialValue: now),
+                    ),
+                    _ListItem(
                       title: 'Set onChanged',
-                      child: DateTimeFormField.materialPicker(
-                        firstDate: firstDate,
-                        lastDate: lastDate,
+                      child: DateTimeFormField(
                         onChanged: (value) {
                           final String text;
 
@@ -264,22 +269,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           hintText:
                               MaterialLocalizations.of(context).dateHelpText,
                         ),
-                      ),
-                    ),
-                    Text(
-                      'Pickers',
-                      style: theme.textTheme.headlineMedium,
-                    ),
-                    const Gap(8),
-                    _ListItem(
-                      title: 'Cupertino picker',
-                      child: DateTimeFormField.cupertinoPicker(),
-                    ),
-                    _ListItem(
-                      title: 'Material picker',
-                      child: DateTimeFormField.materialPicker(
-                        firstDate: firstDate,
-                        lastDate: lastDate,
                       ),
                     ),
                   ],
