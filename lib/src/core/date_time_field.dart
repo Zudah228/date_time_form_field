@@ -47,14 +47,14 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
     final formatted =
         _controller.value != null ? _format(_controller.value!) : '';
 
-    _key.currentState!.textEditingController.text = formatted;
+    _key.currentState!._textEditingController.text = formatted;
   }
 
   void clear() {
     _controller.clear();
     _key.currentState!
-      ..textEditingController.clear()
-      ..errorText = null
+      .._textEditingController.clear()
+      .._errorText = null
       ..setState(() {});
   }
 
@@ -122,16 +122,30 @@ class _Field extends StatefulWidget {
 }
 
 class _FieldState extends State<_Field> {
-  String? errorText;
+  String? _errorText;
 
-  late final TextEditingController textEditingController;
+  late final TextEditingController _textEditingController;
 
   DateTime? _convert(String v) =>
       MaterialLocalizations.of(context).parseCompactDate(v);
 
+  void _onChanged(String value) {
+    final changed = _convert(value);
+    widget.onChanged(changed);
+
+    // validation
+    setState(() {
+      if (changed == null) {
+        _errorText = MaterialLocalizations.of(context).invalidDateFormatLabel;
+      } else {
+        _errorText = null;
+      }
+    });
+  }
+
   @override
   void initState() {
-    textEditingController = TextEditingController(text: widget.initialText);
+    _textEditingController = TextEditingController(text: widget.initialText);
     super.initState();
   }
 
@@ -140,26 +154,13 @@ class _FieldState extends State<_Field> {
     // WARNING: validate のためにここを TextFormField にすると、FormState.reset() などの挙動に影響されてしまうので、
     // TextField のままで運用する。
     return TextField(
-      controller: textEditingController,
+      controller: _textEditingController,
       restorationId: widget.restorationId,
       decoration: widget.decoration.copyWith(
-        errorText: errorText ?? widget.decoration.errorText,
+        errorText: _errorText ?? widget.decoration.errorText,
       ),
       keyboardType: TextInputType.datetime,
-      onChanged: (value) {
-        final changed = _convert(value);
-        widget.onChanged(changed);
-
-        // validation
-        setState(() {
-          if (changed == null) {
-            errorText =
-                MaterialLocalizations.of(context).invalidDateFormatLabel;
-          } else {
-            errorText = null;
-          }
-        });
-      },
+      onChanged: _onChanged,
     );
   }
 }
