@@ -52,6 +52,11 @@ class DateTimeFormField extends FormField<DateTime?> {
               };
             }
 
+            void onChangedHandler(DateTime? value) {
+              onChanged?.call(value);
+              field.didChange(value);
+            }
+
             return UnmanagedRestorationScope(
               bucket: field.bucket,
               child: DateTimeTextField(
@@ -59,6 +64,7 @@ class DateTimeFormField extends FormField<DateTime?> {
                 decoration: effectiveDecoration.copyWith(
                   errorText: field.errorText,
                 ),
+                onChanged: onChangedHandler,
                 format: format,
                 showDatePicker: showDatePickerHandler != null
                     ? (_) async => showDatePickerHandler?.call()

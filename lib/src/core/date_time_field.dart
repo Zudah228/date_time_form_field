@@ -12,6 +12,7 @@ class DateTimeTextField extends StatefulWidget {
     this.format,
     this.restorationId,
     this.showDatePicker,
+    this.onChanged,
   });
 
   final DateTimeEditingController? controller;
@@ -19,6 +20,7 @@ class DateTimeTextField extends StatefulWidget {
   final String Function(DateTime date, BuildContext context)? format;
   final String? restorationId;
   final FutureOr<DateTime?> Function(DateTime? currentValue)? showDatePicker;
+  final ValueChanged<DateTime?>? onChanged;
 
   @override
   State<DateTimeTextField> createState() => DateTimeTextFieldState();
@@ -41,6 +43,7 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
   }
 
   void _handler() {
+    widget.onChanged?.call(_controller.value);
     final formatted =
         _controller.value != null ? _format(_controller.value!) : '';
 
