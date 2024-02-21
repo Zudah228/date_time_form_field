@@ -9,20 +9,22 @@ class DateTimeTextField extends StatefulWidget {
     super.key,
     this.controller,
     this.decoration,
-    this.format,
+    this.formatFromDate,
     this.restorationId,
     this.showDatePicker,
     this.onChanged,
+    this.parseDate,
     AutovalidateMode? autovalidateMode,
   }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   final DateTimeEditingController? controller;
   final InputDecoration? decoration;
-  final String Function(DateTime date, BuildContext context)? format;
+  final String Function(DateTime date, BuildContext context)? formatFromDate;
   final String? restorationId;
   final FutureOr<DateTime?> Function(DateTime? currentValue)? showDatePicker;
   final ValueChanged<DateTime?>? onChanged;
   final AutovalidateMode autovalidateMode;
+  final DateTime? Function(String value)? parseDate;
 
   @override
   State<DateTimeTextField> createState() => DateTimeTextFieldState();
@@ -33,8 +35,8 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
   final _key = GlobalKey<_FieldState>();
 
   String _format(DateTime date) {
-    var format = widget.format != null
-        ? (DateTime date) => widget.format!.call(date, context)
+    var format = widget.formatFromDate != null
+        ? (DateTime date) => widget.formatFromDate!.call(date, context)
         : null;
 
     format ??= (DateTime date) {
@@ -92,6 +94,7 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
       decoration: effectiveDecoration.copyWith(
         prefixIcon: prefixIcon,
       ),
+      parseDate: widget.parseDate,
       onChanged: (value) {
         if (value == null && _controller.value != null) {
         } else {
@@ -111,6 +114,7 @@ class _Field extends StatefulWidget {
     required this.decoration,
     required this.onChanged,
     required this.autovalidateMode,
+    this.parseDate,
   });
 
   final String initialText;
@@ -118,6 +122,7 @@ class _Field extends StatefulWidget {
   final InputDecoration decoration;
   final ValueChanged<DateTime?> onChanged;
   final AutovalidateMode autovalidateMode;
+  final DateTime? Function(String value)? parseDate;
 
   @override
   State<_Field> createState() => _FieldState();
@@ -129,11 +134,12 @@ class _FieldState extends State<_Field> {
 
   late final TextEditingController _textEditingController;
 
-  DateTime? _convert(String v) =>
-      MaterialLocalizations.of(context).parseCompactDate(v);
+  DateTime? _parseDate(String v) => widget.parseDate != null
+      ? widget.parseDate!(v)
+      : MaterialLocalizations.of(context).parseCompactDate(v);
 
   void _validate() {
-    if (_convert(_textEditingController.text) == null) {
+    if (_parseDate(_textEditingController.text) == null) {
       _errorText = MaterialLocalizations.of(context).invalidDateFormatLabel;
     } else {
       _errorText = null;
@@ -141,7 +147,7 @@ class _FieldState extends State<_Field> {
   }
 
   void _onChanged(String value) {
-    final changed = _convert(value);
+    final changed = _parseDate(value);
     widget.onChanged(changed);
 
     // validation

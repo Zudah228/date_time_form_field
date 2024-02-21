@@ -19,7 +19,8 @@ class DateTimeFormField extends FormField<DateTime?> {
     super.validator,
     this.decoration,
     this.onChanged,
-    this.format,
+    this.formatFromDate,
+    this.parseDate,
   }) : super(
           builder: (state) {
             final field = state as DateTimeFormFieldState;
@@ -67,7 +68,8 @@ class DateTimeFormField extends FormField<DateTime?> {
                 ),
                 autovalidateMode: autovalidateMode,
                 onChanged: onChangedHandler,
-                format: format,
+                formatFromDate: formatFromDate,
+                parseDate: parseDate,
                 showDatePicker: showDatePickerHandler != null
                     ? (_) async => showDatePickerHandler?.call()
                     : null,
@@ -82,9 +84,11 @@ class DateTimeFormField extends FormField<DateTime?> {
   final InputDecoration? decoration;
   final ValueChanged<DateTime?>? onChanged;
   final DateTimeEditingController? controller;
-  final String Function(DateTime date, BuildContext context)? format;
+  final String Function(DateTime date, BuildContext context)? formatFromDate;
   final FutureOr<DateTime?> Function(DateTimeFormFieldState state)?
       showTimePicker;
+  final DateTime? Function(String value)? parseDate;
+
   @override
   DateTimeFormFieldState createState() {
     return DateTimeFormFieldState();
@@ -208,7 +212,7 @@ class _DateTimeFormFieldWithMaterialPicker extends DateTimeFormField {
     required DateTime lastDate,
     RouteSettings? datePickerDialogRouteSettings,
     super.onChanged,
-    super.format,
+    super.formatFromDate,
   }) : super(
             showTimePicker: (DateTimeFormFieldState state) => showDatePicker(
                   context: state.context,
@@ -239,7 +243,7 @@ class _DateTimeFormFieldWithCupertinoPicker extends DateTimeFormField {
     super.validator,
     super.decoration,
     super.onChanged,
-    super.format,
+    super.formatFromDate,
     super.controller,
     DateTime? firstDate,
     DateTime? lastDate,
