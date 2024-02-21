@@ -52,7 +52,10 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
 
   void clear() {
     _controller.clear();
-    _key.currentState!.textEditingController.clear();
+    _key.currentState!
+      ..textEditingController.clear()
+      ..errorText = null
+      ..setState(() {});
   }
 
   @override
@@ -119,7 +122,7 @@ class _Field extends StatefulWidget {
 }
 
 class _FieldState extends State<_Field> {
-  String? _errorText;
+  String? errorText;
 
   late final TextEditingController textEditingController;
 
@@ -139,7 +142,7 @@ class _FieldState extends State<_Field> {
     return TextField(
       controller: textEditingController,
       restorationId: widget.restorationId,
-      decoration: widget.decoration.copyWith(errorText: _errorText),
+      decoration: widget.decoration.copyWith(errorText: errorText),
       keyboardType: TextInputType.datetime,
       onChanged: (value) {
         final changed = _convert(value);
@@ -148,11 +151,11 @@ class _FieldState extends State<_Field> {
         // validation
         if (changed == null) {
           setState(() {
-            _errorText =
+            errorText =
                 MaterialLocalizations.of(context).invalidDateFormatLabel;
           });
         } else {
-          _errorText = null;
+          errorText = null;
         }
       },
     );
