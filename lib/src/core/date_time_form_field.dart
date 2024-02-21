@@ -158,7 +158,6 @@ class DateTimeFormFieldState extends FormFieldState<DateTime?> {
   void didChange(DateTime? value) {
     super.didChange(value);
     if (_effectiveController.needChange(value)) {
-      _dateFormField.onChanged?.call(value);
       _effectiveController.value = value;
     }
   }
@@ -166,6 +165,7 @@ class DateTimeFormFieldState extends FormFieldState<DateTime?> {
   @override
   void dispose() {
     _controller?.dispose();
+    _dateFormField.controller?.removeListener(_handleControllerChanged);
     super.dispose();
   }
 
