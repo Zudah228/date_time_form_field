@@ -105,13 +105,13 @@ class _Field extends StatefulWidget {
     super.key,
     required this.initialText,
     this.restorationId,
-    this.decoration,
+    required this.decoration,
     required this.onChanged,
   });
 
   final String initialText;
   final String? restorationId;
-  final InputDecoration? decoration;
+  final InputDecoration decoration;
   final ValueChanged<DateTime?> onChanged;
 
   @override
@@ -119,6 +119,8 @@ class _Field extends StatefulWidget {
 }
 
 class _FieldState extends State<_Field> {
+  String? _errorText;
+
   late final TextEditingController textEditingController;
 
   DateTime? _convert(String v) =>
@@ -137,11 +139,21 @@ class _FieldState extends State<_Field> {
     return TextField(
       controller: textEditingController,
       restorationId: widget.restorationId,
-      decoration: widget.decoration,
+      decoration: widget.decoration.copyWith(errorText: _errorText),
       keyboardType: TextInputType.datetime,
       onChanged: (value) {
         final changed = _convert(value);
         widget.onChanged(changed);
+
+        // validation
+        if (changed == null) {
+          setState(() {
+            _errorText =
+                MaterialLocalizations.of(context).invalidDateFormatLabel;
+          });
+        } else {
+          _errorText = null;
+        }
       },
     );
   }
