@@ -229,19 +229,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         decoration: InputDecoration(
                           hintText:
                               MaterialLocalizations.of(context).dateHelpText,
-                          suffixIcon: Builder(
-                            builder: (context) {
-                              return IconButton(
-                                onPressed: () {
-                                  context
-                                      .findAncestorStateOfType<
-                                          DateTimeTextFieldState>()
-                                      ?.clear();
-                                },
-                                icon: const Icon(Icons.clear),
-                              );
-                            },
-                          ),
+                          suffixIcon: const DateTimeFormClearButton(),
                         ),
                       ),
                     ),
