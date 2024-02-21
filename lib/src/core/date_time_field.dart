@@ -21,10 +21,10 @@ class DateTimeTextField extends StatefulWidget {
   final FutureOr<DateTime?> Function(DateTime? currentValue)? showDatePicker;
 
   @override
-  State<DateTimeTextField> createState() => _DateTimeTextFieldState();
+  State<DateTimeTextField> createState() => DateTimeTextFieldState();
 }
 
-class _DateTimeTextFieldState extends State<DateTimeTextField> {
+class DateTimeTextFieldState extends State<DateTimeTextField> {
   late final DateTimeEditingController _controller;
   final _key = GlobalKey<_FieldState>();
 
@@ -45,6 +45,11 @@ class _DateTimeTextFieldState extends State<DateTimeTextField> {
         _controller.value != null ? _format(_controller.value!) : '';
 
     _key.currentState!.textEditingController.text = formatted;
+  }
+
+  void clear() {
+    _controller.clear();
+    _key.currentState!.textEditingController.clear();
   }
 
   @override
@@ -73,22 +78,20 @@ class _DateTimeTextFieldState extends State<DateTimeTextField> {
         icon: const Icon(Icons.calendar_month),
       );
     }
-    return InkWell(
-      onTap: () {
-        widget.showDatePicker?.call(_controller.value);
-      },
-      child: _Field(
-        key: _key,
-        initialText:
-            _controller.value != null ? _format(_controller.value!) : '',
-        restorationId: widget.restorationId,
-        decoration: effectiveDecoration.copyWith(
-          prefixIcon: prefixIcon,
-        ),
-        onChanged: (value) {
-          _controller.value = value;
-        },
+
+    return _Field(
+      key: _key,
+      initialText: _controller.value != null ? _format(_controller.value!) : '',
+      restorationId: widget.restorationId,
+      decoration: effectiveDecoration.copyWith(
+        prefixIcon: prefixIcon,
       ),
+      onChanged: (value) {
+        if (value == null && _controller.value != null) {
+        } else {
+          _controller.value = value;
+        }
+      },
     );
   }
 }
@@ -126,18 +129,17 @@ class _FieldState extends State<_Field> {
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: TextField(
-        readOnly: true,
-        controller: textEditingController,
-        restorationId: widget.restorationId,
-        decoration: widget.decoration,
-        keyboardType: TextInputType.datetime,
-        onChanged: (value) {
-          final changed = _convert(value);
-          widget.onChanged(changed);
-        },
-      ),
+    // WARNING: validate のためにここを TextFormField にすると、FormState.reset() などの挙動に影響されてしまうので、
+    // TextField のままで運用する。
+    return TextField(
+      controller: textEditingController,
+      restorationId: widget.restorationId,
+      decoration: widget.decoration,
+      keyboardType: TextInputType.datetime,
+      onChanged: (value) {
+        final changed = _convert(value);
+        widget.onChanged(changed);
+      },
     );
   }
 }

@@ -219,11 +219,33 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     const Gap(8),
                     _ListItem(
+                      title: 'Suffix Icon',
+                      child: DateTimeFormField(
+                        decoration: InputDecoration(
+                          hintText:
+                              MaterialLocalizations.of(context).dateHelpText,
+                          suffixIcon: Builder(
+                            builder: (context) {
+                              return IconButton(
+                                onPressed: () {
+                                  context
+                                      .findAncestorStateOfType<
+                                          DateTimeTextFieldState>()
+                                      ?.clear();
+                                },
+                                icon: const Icon(Icons.clear),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    _ListItem(
                       title: 'Filled',
                       child: DateTimeFormField(
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: colorScheme.inversePrimary,
+                          fillColor: colorScheme.onInverseSurface,
                           hintText:
                               MaterialLocalizations.of(context).dateHelpText,
                         ),
