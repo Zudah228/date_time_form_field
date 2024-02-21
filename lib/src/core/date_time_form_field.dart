@@ -220,8 +220,11 @@ class _DateTimeFormFieldWithMaterialPicker extends DateTimeFormField {
 }
 
 enum CupertinoDatePickerReactiveMode {
+  /// Reactive FormField value change in response to scrolling on the Picker.
   reactive,
-  onClosed,
+
+  /// FormField value change after the Picker is closed.
+  afterClosed,
   ;
 }
 
@@ -254,7 +257,7 @@ class _DateTimeFormFieldWithCupertinoPicker extends DateTimeFormField {
                 case CupertinoDatePickerReactiveMode.reactive:
                   state.didChange(value);
 
-                case CupertinoDatePickerReactiveMode.onClosed:
+                case CupertinoDatePickerReactiveMode.afterClosed:
                   break;
               }
               onDatePickerChanged?.call(value);
