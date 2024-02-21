@@ -14,8 +14,14 @@ Future<DateTime?> showCupertinoDatePicker(
   bool semanticsDismissible = false,
   ImageFilter? filter,
   bool useRootNavigator = false,
+  ValueChanged<DateTime>? onChanged,
 }) async {
   DateTime? selectedDate = initialDateTime ?? DateTime.now();
+
+  void onChangedHandler(DateTime value) {
+    onChanged?.call(value);
+    selectedDate = value;
+  }
 
   await Navigator.of(
     context,
@@ -29,7 +35,7 @@ Future<DateTime?> showCupertinoDatePicker(
       semanticsDismissible: semanticsDismissible,
       filter: filter,
       builder: (_) => _Picker(
-        onChanged: (value) => selectedDate = value,
+        onChanged: onChangedHandler,
         initialDateTime: initialDateTime,
         minimumDate: minimumDate,
         maximumDate: maximumDate,

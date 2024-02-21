@@ -218,6 +218,12 @@ class _DateTimeFormFieldWithMaterialPicker extends DateTimeFormField {
                 ));
 }
 
+enum CupertinoDatePickerReactiveMode {
+  reactive,
+  onClosed,
+  ;
+}
+
 class _DateTimeFormFieldWithCupertinoPicker extends DateTimeFormField {
   _DateTimeFormFieldWithCupertinoPicker({
     super.key,
@@ -233,12 +239,25 @@ class _DateTimeFormFieldWithCupertinoPicker extends DateTimeFormField {
     super.controller,
     DateTime? firstDate,
     DateTime? lastDate,
+    ValueChanged<DateTime>? onDatePickerChanged,
+    CupertinoDatePickerReactiveMode pickerReactiveMode =
+        CupertinoDatePickerReactiveMode.reactive,
   }) : super(
           showTimePicker: (state) => showCupertinoDatePicker(
             state.context,
             initialDateTime: state.value,
             minimumDate: firstDate,
             maximumDate: lastDate,
+            onChanged: (value) {
+              switch (pickerReactiveMode) {
+                case CupertinoDatePickerReactiveMode.reactive:
+                  state.didChange(value);
+
+                case CupertinoDatePickerReactiveMode.onClosed:
+                  break;
+              }
+              onDatePickerChanged?.call(value);
+            },
           ),
         );
 }
