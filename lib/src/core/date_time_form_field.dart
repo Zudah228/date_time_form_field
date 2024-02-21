@@ -60,6 +60,7 @@ class DateTimeFormField extends FormField<DateTime?> {
             return UnmanagedRestorationScope(
               bucket: field.bucket,
               child: DateTimeTextField(
+                key: field._fieldKey,
                 controller: field._effectiveController,
                 decoration: effectiveDecoration.copyWith(
                   errorText: field.errorText,
@@ -95,6 +96,8 @@ class DateTimeFormFieldState extends FormFieldState<DateTime?> {
       _dateFormField.controller ?? _controller!.value;
 
   DateTimeFormField get _dateFormField => super.widget as DateTimeFormField;
+
+  final _fieldKey = GlobalKey<DateTimeTextFieldState>();
 
   @override
   void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
@@ -137,6 +140,7 @@ class DateTimeFormFieldState extends FormFieldState<DateTime?> {
   void reset() {
     _effectiveController.value = widget.initialValue;
     super.reset();
+    _fieldKey.currentState!.clear();
     _dateFormField.onChanged?.call(_effectiveController.value);
   }
 
