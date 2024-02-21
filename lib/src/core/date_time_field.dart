@@ -13,7 +13,8 @@ class DateTimeTextField extends StatefulWidget {
     this.restorationId,
     this.showDatePicker,
     this.onChanged,
-  });
+    AutovalidateMode? autovalidateMode,
+  }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   final DateTimeEditingController? controller;
   final InputDecoration? decoration;
@@ -21,6 +22,7 @@ class DateTimeTextField extends StatefulWidget {
   final String? restorationId;
   final FutureOr<DateTime?> Function(DateTime? currentValue)? showDatePicker;
   final ValueChanged<DateTime?>? onChanged;
+  final AutovalidateMode autovalidateMode;
 
   @override
   State<DateTimeTextField> createState() => DateTimeTextFieldState();
@@ -52,10 +54,7 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
 
   void clear() {
     _controller.clear();
-    _key.currentState!
-      .._textEditingController.clear()
-      .._errorText = null
-      ..setState(() {});
+    _key.currentState!._clear();
   }
 
   @override
@@ -89,6 +88,7 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
       key: _key,
       initialText: _controller.value != null ? _format(_controller.value!) : '',
       restorationId: widget.restorationId,
+      autovalidateMode: widget.autovalidateMode,
       decoration: effectiveDecoration.copyWith(
         prefixIcon: prefixIcon,
       ),
@@ -110,12 +110,14 @@ class _Field extends StatefulWidget {
     this.restorationId,
     required this.decoration,
     required this.onChanged,
+    required this.autovalidateMode,
   });
 
   final String initialText;
   final String? restorationId;
   final InputDecoration decoration;
   final ValueChanged<DateTime?> onChanged;
+  final AutovalidateMode autovalidateMode;
 
   @override
   State<_Field> createState() => _FieldState();
@@ -123,11 +125,20 @@ class _Field extends StatefulWidget {
 
 class _FieldState extends State<_Field> {
   String? _errorText;
+  bool _hasInteractedByUser = false;
 
   late final TextEditingController _textEditingController;
 
   DateTime? _convert(String v) =>
       MaterialLocalizations.of(context).parseCompactDate(v);
+
+  void _validate() {
+    if (_convert(_textEditingController.text) == null) {
+      _errorText = MaterialLocalizations.of(context).invalidDateFormatLabel;
+    } else {
+      _errorText = null;
+    }
+  }
 
   void _onChanged(String value) {
     final changed = _convert(value);
@@ -135,11 +146,15 @@ class _FieldState extends State<_Field> {
 
     // validation
     setState(() {
-      if (changed == null) {
-        _errorText = MaterialLocalizations.of(context).invalidDateFormatLabel;
-      } else {
-        _errorText = null;
-      }
+      _hasInteractedByUser = true;
+    });
+  }
+
+  void _clear() {
+    setState(() {
+      _textEditingController.clear();
+      _errorText = null;
+      _hasInteractedByUser = false;
     });
   }
 
@@ -151,6 +166,17 @@ class _FieldState extends State<_Field> {
 
   @override
   Widget build(BuildContext context) {
+    switch (widget.autovalidateMode) {
+      case AutovalidateMode.always:
+        _validate();
+      case AutovalidateMode.onUserInteraction:
+        if (_hasInteractedByUser) {
+          _validate();
+        }
+      case AutovalidateMode.disabled:
+        break;
+    }
+
     // WARNING: validate のためにここを TextFormField にすると、FormState.reset() などの挙動に影響されてしまうので、
     // TextField のままで運用する。
     return TextField(

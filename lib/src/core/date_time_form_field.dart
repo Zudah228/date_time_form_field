@@ -65,6 +65,7 @@ class DateTimeFormField extends FormField<DateTime?> {
                 decoration: effectiveDecoration.copyWith(
                   errorText: field.errorText,
                 ),
+                autovalidateMode: autovalidateMode,
                 onChanged: onChangedHandler,
                 format: format,
                 showDatePicker: showDatePickerHandler != null
