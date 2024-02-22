@@ -79,10 +79,10 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
   Widget build(BuildContext context) {
     final effectiveDecoration = (widget.decoration ?? const InputDecoration())
         .applyDefaults(Theme.of(context).inputDecorationTheme);
-    Widget? prefixIcon;
+    Widget? suffixIcon;
 
     if (widget.showDatePicker case final showDatePicker?) {
-      prefixIcon = IconButton(
+      suffixIcon = IconButton(
         onPressed: () => showDatePicker(_controller.value),
         icon: const Icon(Icons.calendar_month),
       );
@@ -94,7 +94,7 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
       restorationId: widget.restorationId,
       autovalidateMode: widget.autovalidateMode,
       decoration: effectiveDecoration.copyWith(
-        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
       ),
       parseDate: widget.parseDate,
       onChanged: (value) {

@@ -224,16 +224,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     const Gap(8),
                     _ListItem(
-                      title: 'Suffix Icon',
-                      child: DateTimeFormField(
-                        decoration: InputDecoration(
-                          hintText:
-                              MaterialLocalizations.of(context).dateHelpText,
-                          suffixIcon: const DateTimeFormClearButton(),
-                        ),
-                      ),
-                    ),
-                    _ListItem(
                       title: 'Filled',
                       child: DateTimeFormField(
                         decoration: InputDecoration(
