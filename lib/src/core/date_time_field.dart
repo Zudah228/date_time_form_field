@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../controller/date_time_editing_controller.dart';
 
@@ -39,8 +39,7 @@ class DateTimeTextField extends StatefulWidget {
         'controller', controller));
     properties
         .add(DiagnosticsProperty<InputDecoration>('decoration', decoration));
-    properties.add(DiagnosticsProperty<
-            String Function(DateTime date)>(
+    properties.add(DiagnosticsProperty<String Function(DateTime date)>(
         'formatFromDate', formatFromDate));
     properties.add(DiagnosticsProperty<String>('restorationId', restorationId));
     properties.add(DiagnosticsProperty<
@@ -84,6 +83,10 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
   void clear() {
     _controller.clear();
     _key.currentState!._clear();
+  }
+
+  bool validate() {
+    return _key.currentState!._validate();
   }
 
   @override
@@ -168,12 +171,15 @@ class _FieldState extends State<_Field> {
       ? widget.parseDate!(v)
       : MaterialLocalizations.of(context).parseCompactDate(v);
 
-  void _validate() {
-    if (_parseDate(_textEditingController.text) == null) {
+  bool _validate() {
+    if (_textEditingController.text.isNotEmpty &&
+        _parseDate(_textEditingController.text) == null) {
       _errorText = MaterialLocalizations.of(context).invalidDateFormatLabel;
     } else {
       _errorText = null;
     }
+
+    return _errorText == null;
   }
 
   void _onChanged(String value) {

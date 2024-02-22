@@ -196,6 +196,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     const Gap(8),
                     _ListItem(
+                      title: 'Format Validation',
+                      child: DateTimeFormField(),
+                    ),
+                    _ListItem(
                       title: '"required" Validation',
                       child: DateTimeFormField(
                         validator: (value) => value == null ? 'required' : null,

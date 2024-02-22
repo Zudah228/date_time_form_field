@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:date_time_form_field/src/core/date_time_field.dart';
 import 'package:date_time_form_field/src/components/cupertino_date_picker.dart';
+import 'package:date_time_form_field/src/core/date_time_field.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/date_time_editing_controller.dart';
 
 class DateTimeFormField extends FormField<DateTime?> {
-  DateTimeFormField( {
+  DateTimeFormField({
     super.key,
     this.showTimePicker,
     this.controller,
@@ -142,6 +142,11 @@ class DateTimeFormFieldState extends FormFieldState<DateTime?> {
   @override
   void setValue(DateTime? value) {
     super.setValue(value);
+  }
+
+  @override
+  bool validate() {
+    return _fieldKey.currentState!.validate() || super.validate();
   }
 
   @override
