@@ -15,6 +15,7 @@ class DateTimeTextField extends StatefulWidget {
     this.onChanged,
     this.parseDate,
     AutovalidateMode? autovalidateMode,
+    this.keyboardType,
   }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   final DateTimeEditingController? controller;
@@ -25,6 +26,7 @@ class DateTimeTextField extends StatefulWidget {
   final ValueChanged<DateTime?>? onChanged;
   final AutovalidateMode autovalidateMode;
   final DateTime? Function(String value)? parseDate;
+  final TextInputType? keyboardType;
 
   @override
   State<DateTimeTextField> createState() => DateTimeTextFieldState();
@@ -101,6 +103,7 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
           _controller.value = value;
         }
       },
+      keyboardType: widget.keyboardType,
     );
   }
 }
@@ -114,7 +117,7 @@ class _Field extends StatefulWidget {
     required this.decoration,
     required this.onChanged,
     required this.autovalidateMode,
-    this.parseDate,
+    this.parseDate, this.keyboardType,
   });
 
   final String initialText;
@@ -123,6 +126,7 @@ class _Field extends StatefulWidget {
   final ValueChanged<DateTime?> onChanged;
   final AutovalidateMode autovalidateMode;
   final DateTime? Function(String value)? parseDate;
+  final TextInputType? keyboardType;
 
   @override
   State<_Field> createState() => _FieldState();

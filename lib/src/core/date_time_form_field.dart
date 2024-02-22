@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../controller/date_time_editing_controller.dart';
 
 class DateTimeFormField extends FormField<DateTime?> {
-  DateTimeFormField({
+  DateTimeFormField( {
     super.key,
     this.showTimePicker,
     this.controller,
@@ -21,6 +21,7 @@ class DateTimeFormField extends FormField<DateTime?> {
     this.onChanged,
     this.formatFromDate,
     this.parseDate,
+    this.keyboardType,
   }) : super(
           builder: (state) {
             final field = state as DateTimeFormFieldState;
@@ -70,6 +71,7 @@ class DateTimeFormField extends FormField<DateTime?> {
                 onChanged: onChangedHandler,
                 formatFromDate: formatFromDate,
                 parseDate: parseDate,
+                keyboardType: keyboardType,
                 showDatePicker: showDatePickerHandler != null
                     ? (_) async => showDatePickerHandler?.call()
                     : null,
@@ -88,6 +90,7 @@ class DateTimeFormField extends FormField<DateTime?> {
   final FutureOr<DateTime?> Function(DateTimeFormFieldState state)?
       showTimePicker;
   final DateTime? Function(String value)? parseDate;
+  final TextInputType? keyboardType;
 
   @override
   DateTimeFormFieldState createState() {
