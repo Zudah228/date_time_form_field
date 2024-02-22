@@ -86,7 +86,7 @@ class DateTimeFormField extends FormField<DateTime?> {
   final InputDecoration? decoration;
   final ValueChanged<DateTime?>? onChanged;
   final DateTimeEditingController? controller;
-  final String Function(DateTime date, BuildContext context)? formatFromDate;
+  final String Function(DateTime date)? formatFromDate;
   final FutureOr<DateTime?> Function(DateTimeFormFieldState state)?
       showTimePicker;
   final DateTime? Function(String value)? parseDate;

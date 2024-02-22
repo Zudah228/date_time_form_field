@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import '../controller/date_time_editing_controller.dart';
 
@@ -20,7 +21,7 @@ class DateTimeTextField extends StatefulWidget {
 
   final DateTimeEditingController? controller;
   final InputDecoration? decoration;
-  final String Function(DateTime date, BuildContext context)? formatFromDate;
+  final String Function(DateTime date)? formatFromDate;
   final String? restorationId;
   final FutureOr<DateTime?> Function(DateTime? currentValue)? showDatePicker;
   final ValueChanged<DateTime?>? onChanged;
@@ -30,6 +31,30 @@ class DateTimeTextField extends StatefulWidget {
 
   @override
   State<DateTimeTextField> createState() => DateTimeTextFieldState();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<DateTimeEditingController>(
+        'controller', controller));
+    properties
+        .add(DiagnosticsProperty<InputDecoration>('decoration', decoration));
+    properties.add(DiagnosticsProperty<
+            String Function(DateTime date)>(
+        'formatFromDate', formatFromDate));
+    properties.add(DiagnosticsProperty<String>('restorationId', restorationId));
+    properties.add(DiagnosticsProperty<
+        FutureOr<DateTime?> Function(
+            DateTime? currentValue)>('showDatePicker', showDatePicker));
+    properties.add(
+        DiagnosticsProperty<ValueChanged<DateTime?>>('onChanged', onChanged));
+    properties.add(DiagnosticsProperty<AutovalidateMode>(
+        'autovalidateMode', autovalidateMode));
+    properties.add(DiagnosticsProperty<DateTime? Function(String value)>(
+        'parseDate', parseDate));
+    properties
+        .add(DiagnosticsProperty<TextInputType>('keyboardType', keyboardType));
+  }
 }
 
 class DateTimeTextFieldState extends State<DateTimeTextField> {
@@ -38,7 +63,7 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
 
   String _format(DateTime date) {
     var format = widget.formatFromDate != null
-        ? (DateTime date) => widget.formatFromDate!.call(date, context)
+        ? (DateTime date) => widget.formatFromDate!.call(date)
         : null;
 
     format ??= (DateTime date) {
@@ -117,7 +142,8 @@ class _Field extends StatefulWidget {
     required this.decoration,
     required this.onChanged,
     required this.autovalidateMode,
-    this.parseDate, this.keyboardType,
+    this.parseDate,
+    this.keyboardType,
   });
 
   final String initialText;
