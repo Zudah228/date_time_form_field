@@ -22,6 +22,7 @@ class DateTimeFormField extends FormField<DateTime?> {
     this.formatFromDate,
     this.parseDate,
     this.keyboardType,
+    this.invalidDateFormatLabel,
   }) : super(
           builder: (state) {
             final field = state as DateTimeFormFieldState;
@@ -75,6 +76,7 @@ class DateTimeFormField extends FormField<DateTime?> {
                 showDatePicker: showDatePickerHandler != null
                     ? (_) async => showDatePickerHandler?.call()
                     : null,
+                invalidDateFormatLabel: invalidDateFormatLabel,
               ),
             );
           },
@@ -91,6 +93,7 @@ class DateTimeFormField extends FormField<DateTime?> {
       showTimePicker;
   final DateTime? Function(String value)? parseDate;
   final TextInputType? keyboardType;
+  final String? invalidDateFormatLabel;
 
   @override
   DateTimeFormFieldState createState() {

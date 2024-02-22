@@ -17,6 +17,7 @@ class DateTimeTextField extends StatefulWidget {
     this.parseDate,
     AutovalidateMode? autovalidateMode,
     this.keyboardType,
+    this.invalidDateFormatLabel,
   }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   final DateTimeEditingController? controller;
@@ -28,6 +29,7 @@ class DateTimeTextField extends StatefulWidget {
   final AutovalidateMode autovalidateMode;
   final DateTime? Function(String value)? parseDate;
   final TextInputType? keyboardType;
+  final String? invalidDateFormatLabel;
 
   @override
   State<DateTimeTextField> createState() => DateTimeTextFieldState();
@@ -132,6 +134,7 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
         }
       },
       keyboardType: widget.keyboardType,
+      invalidDateFormatLabel: widget.invalidDateFormatLabel,
     );
   }
 }
@@ -141,12 +144,13 @@ class _Field extends StatefulWidget {
   const _Field({
     super.key,
     required this.initialText,
-    this.restorationId,
+    required this.restorationId,
     required this.decoration,
     required this.onChanged,
     required this.autovalidateMode,
-    this.parseDate,
-    this.keyboardType,
+    required this.parseDate,
+    required this.keyboardType,
+    required this.invalidDateFormatLabel,
   });
 
   final String initialText;
@@ -156,6 +160,7 @@ class _Field extends StatefulWidget {
   final AutovalidateMode autovalidateMode;
   final DateTime? Function(String value)? parseDate;
   final TextInputType? keyboardType;
+  final String? invalidDateFormatLabel;
 
   @override
   State<_Field> createState() => _FieldState();
@@ -167,6 +172,10 @@ class _FieldState extends State<_Field> {
 
   late final TextEditingController _textEditingController;
 
+  String get _invalidDateFormatLabel =>
+      widget.invalidDateFormatLabel ??
+      MaterialLocalizations.of(context).invalidDateFormatLabel;
+
   DateTime? _parseDate(String v) => widget.parseDate != null
       ? widget.parseDate!(v)
       : MaterialLocalizations.of(context).parseCompactDate(v);
@@ -174,7 +183,7 @@ class _FieldState extends State<_Field> {
   bool _validate() {
     if (_textEditingController.text.isNotEmpty &&
         _parseDate(_textEditingController.text) == null) {
-      _errorText = MaterialLocalizations.of(context).invalidDateFormatLabel;
+      _errorText = _invalidDateFormatLabel;
     } else {
       _errorText = null;
     }
@@ -186,7 +195,6 @@ class _FieldState extends State<_Field> {
     final changed = _parseDate(value);
     widget.onChanged(changed);
 
-    // validation
     setState(() {
       _hasInteractedByUser = true;
     });
