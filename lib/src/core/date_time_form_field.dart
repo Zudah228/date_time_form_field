@@ -146,7 +146,7 @@ class DateTimeFormFieldState extends FormFieldState<DateTime?> {
 
   @override
   bool validate() {
-    return _fieldKey.currentState!.validate() || super.validate();
+    return !(_fieldKey.currentState!.validate() && super.validate());
   }
 
   @override
