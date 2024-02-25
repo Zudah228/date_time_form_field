@@ -1,4 +1,4 @@
-name: date_time_text_form_field
+name: date_time_form_field
 description: "TextField based DateTimeTextField"
 version: 0.0.1
 homepage:

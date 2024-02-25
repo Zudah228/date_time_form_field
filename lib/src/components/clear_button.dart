@@ -1,4 +1,4 @@
-import 'package:date_time_text_form_field/date_time_text_form_field.dart';
+import 'package:date_time_form_field/date_time_form_field.dart';
 import 'package:flutter/material.dart';
 
 class DateTimeFormClearButton extends StatelessWidget {

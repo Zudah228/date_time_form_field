@@ -1,4 +1,4 @@
-import 'package:date_time_text_form_field/date_time_text_form_field.dart';
+import 'package:date_time_form_field/date_time_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gap/gap.dart';
