@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:date_time_form_field/src/components/cupertino_date_picker.dart';
-import 'package:date_time_form_field/src/core/date_time_text_field.dart';
+import 'package:date_time_form_field/src/text_fields/date_time_text_field.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/date_time_editing_controller.dart';
