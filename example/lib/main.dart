@@ -1,4 +1,4 @@
-import 'package:date_time_form_field/date_time_form_field.dart';
+import 'package:date_time_text_form_field/date_time_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gap/gap.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DateTimeFormField Demo',
+      title: 'DateTimeTextFormField Demo',
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late final lastDate = now.add(const Duration(days: 365));
 
   final _controller = DateTimeEditingController();
-  final _fieldKey = GlobalKey<DateTimeFormFieldState>();
+  final _fieldKey = GlobalKey<DateTimeTextFormFieldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text('DateTimeFormField'),
+          title: const Text('DateTimeTextFormField'),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -92,22 +92,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     const Gap(8),
                     _ListItem(
                       title: 'Primitive use',
-                      child: DateTimeFormField(),
+                      child: DateTimeTextFormField(),
                     ),
                     _ListItem(
                       title: 'Cupertino picker',
-                      child: DateTimeFormField.cupertinoPicker(),
+                      child: DateTimeTextFormField.cupertinoPicker(),
                     ),
                     _ListItem(
                       title: 'Material picker',
-                      child: DateTimeFormField.materialPicker(
+                      child: DateTimeTextFormField.materialPicker(
                         firstDate: firstDate,
                         lastDate: lastDate,
                       ),
                     ),
                     _ListItem(
                       title: 'Customize calenderIcon',
-                      child: DateTimeFormField.materialPicker(
+                      child: DateTimeTextFormField.materialPicker(
                         firstDate: firstDate,
                         lastDate: lastDate,
                         calenderIcon: const Icon(Icons.thumb_up),
@@ -115,11 +115,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     _ListItem(
                       title: 'Set initialValue',
-                      child: DateTimeFormField(initialValue: now),
+                      child: DateTimeTextFormField(initialValue: now),
                     ),
                     _ListItem(
                       title: 'Set onChanged',
-                      child: DateTimeFormField(
+                      child: DateTimeTextFormField(
                         onChanged: (value) {
                           final String text;
 
@@ -180,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   'ListenValue: ${value != null ? DateFormat.yMMMd().format(value) : 'Null'}');
                             },
                           ),
-                          DateTimeFormField(
+                          DateTimeTextFormField(
                             key: _fieldKey,
                             controller: _controller,
                           ),
@@ -205,24 +205,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     const Gap(8),
                     _ListItem(
                       title: 'Format Validation',
-                      child: DateTimeFormField(),
+                      child: DateTimeTextFormField(),
                     ),
                     _ListItem(
                       title: '"required" Validation',
-                      child: DateTimeFormField(
+                      child: DateTimeTextFormField(
                         validator: (value) => value == null ? 'required' : null,
                       ),
                     ),
                     _ListItem(
                       title: '"required" Validation onUserInteraction',
-                      child: DateTimeFormField(
+                      child: DateTimeTextFormField(
                         validator: (value) => value == null ? 'required' : null,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
                     ),
                     _ListItem(
                       title: '"within this year" Validation',
-                      child: DateTimeFormField(
+                      child: DateTimeTextFormField(
                         validator: (value) => value == null
                             ? 'required'
                             : value.year != now.year
@@ -237,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     const Gap(8),
                     _ListItem(
                       title: 'Filled',
-                      child: DateTimeFormField(
+                      child: DateTimeTextFormField(
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: colorScheme.onInverseSurface,
@@ -248,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     _ListItem(
                       title: 'Outlined',
-                      child: DateTimeFormField(
+                      child: DateTimeTextFormField(
                         decoration: InputDecoration(
                           label: const Text('Date'),
                           border: const OutlineInputBorder(

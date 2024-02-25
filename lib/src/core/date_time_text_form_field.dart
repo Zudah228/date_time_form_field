@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:date_time_form_field/src/components/cupertino_date_picker.dart';
-import 'package:date_time_form_field/src/core/date_time_field.dart';
+import 'package:date_time_text_form_field/src/components/cupertino_date_picker.dart';
+import 'package:date_time_text_form_field/src/core/date_time_text_field.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/date_time_editing_controller.dart';
 
-class DateTimeFormField extends FormField<DateTime?> {
-  DateTimeFormField({
+class DateTimeTextFormField extends FormField<DateTime?> {
+  DateTimeTextFormField({
     super.key,
     this.showTimePicker,
     this.controller,
@@ -26,7 +26,7 @@ class DateTimeFormField extends FormField<DateTime?> {
     this.calenderIcon,
   }) : super(
           builder: (state) {
-            final field = state as DateTimeFormFieldState;
+            final field = state as DateTimeTextFormFieldState;
 
             final InputDecoration effectiveDecoration = (decoration ??
                     const InputDecoration())
@@ -85,14 +85,14 @@ class DateTimeFormField extends FormField<DateTime?> {
           },
         );
 
-  static const materialPicker = _DateTimeFormFieldWithMaterialPicker.new;
-  static const cupertinoPicker = _DateTimeFormFieldWithCupertinoPicker.new;
+  static const materialPicker = _DateTimeTextFormFieldWithMaterialPicker.new;
+  static const cupertinoPicker = _DateTimeTextFormFieldWithCupertinoPicker.new;
 
   final InputDecoration? decoration;
   final ValueChanged<DateTime?>? onChanged;
   final DateTimeEditingController? controller;
   final String Function(DateTime date)? formatFromDate;
-  final FutureOr<DateTime?> Function(DateTimeFormFieldState state)?
+  final FutureOr<DateTime?> Function(DateTimeTextFormFieldState state)?
       showTimePicker;
   final DateTime? Function(String value)? parseDate;
   final TextInputType? keyboardType;
@@ -100,17 +100,18 @@ class DateTimeFormField extends FormField<DateTime?> {
   final Widget? calenderIcon;
 
   @override
-  DateTimeFormFieldState createState() {
-    return DateTimeFormFieldState();
+  DateTimeTextFormFieldState createState() {
+    return DateTimeTextFormFieldState();
   }
 }
 
-class DateTimeFormFieldState extends FormFieldState<DateTime?> {
+class DateTimeTextFormFieldState extends FormFieldState<DateTime?> {
   RestorableDateTimeEditingController? _controller;
   DateTimeEditingController get _effectiveController =>
       _dateFormField.controller ?? _controller!.value;
 
-  DateTimeFormField get _dateFormField => super.widget as DateTimeFormField;
+  DateTimeTextFormField get _dateFormField =>
+      super.widget as DateTimeTextFormField;
 
   final _fieldKey = GlobalKey<DateTimeTextFieldState>();
 
@@ -190,7 +191,7 @@ class DateTimeFormFieldState extends FormFieldState<DateTime?> {
   }
 
   @override
-  void didUpdateWidget(DateTimeFormField oldWidget) {
+  void didUpdateWidget(DateTimeTextFormField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (_dateFormField.controller != oldWidget.controller) {
       oldWidget.controller?.removeListener(_handleControllerChanged);
@@ -212,8 +213,8 @@ class DateTimeFormFieldState extends FormFieldState<DateTime?> {
   }
 }
 
-class _DateTimeFormFieldWithMaterialPicker extends DateTimeFormField {
-  _DateTimeFormFieldWithMaterialPicker({
+class _DateTimeTextFormFieldWithMaterialPicker extends DateTimeTextFormField {
+  _DateTimeTextFormFieldWithMaterialPicker({
     super.key,
     super.controller,
     super.autovalidateMode,
@@ -233,7 +234,8 @@ class _DateTimeFormFieldWithMaterialPicker extends DateTimeFormField {
     super.invalidDateFormatLabel,
     super.keyboardType,
   }) : super(
-            showTimePicker: (DateTimeFormFieldState state) => showDatePicker(
+            showTimePicker: (DateTimeTextFormFieldState state) =>
+                showDatePicker(
                   context: state.context,
                   routeSettings: datePickerDialogRouteSettings,
                   initialDate: state.value,
@@ -251,8 +253,8 @@ enum CupertinoDatePickerReactiveMode {
   ;
 }
 
-class _DateTimeFormFieldWithCupertinoPicker extends DateTimeFormField {
-  _DateTimeFormFieldWithCupertinoPicker({
+class _DateTimeTextFormFieldWithCupertinoPicker extends DateTimeTextFormField {
+  _DateTimeTextFormFieldWithCupertinoPicker({
     super.key,
     super.autovalidateMode,
     super.enabled,

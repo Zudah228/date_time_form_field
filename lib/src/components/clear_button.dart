@@ -1,4 +1,4 @@
-import 'package:date_time_form_field/date_time_form_field.dart';
+import 'package:date_time_text_form_field/date_time_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class DateTimeFormClearButton extends StatelessWidget {
@@ -10,7 +10,7 @@ class DateTimeFormClearButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        context.findAncestorStateOfType<DateTimeFormFieldState>()?.reset();
+        context.findAncestorStateOfType<DateTimeTextFormFieldState>()?.reset();
         context.findAncestorStateOfType<DateTimeTextFieldState>()?.clear();
       },
       icon: icon ?? const Icon(Icons.clear),

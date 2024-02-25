@@ -41,7 +41,7 @@ dependencies:
   intl: ^0.18.1
   gap: ^3.0.1
 
-  date_time_form_field:
+  date_time_text_form_field:
     path: ../
 
 dev_dependencies:
