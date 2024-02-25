@@ -23,6 +23,7 @@ class DateTimeFormField extends FormField<DateTime?> {
     this.parseDate,
     this.keyboardType,
     this.invalidDateFormatLabel,
+    this.calenderIcon,
   }) : super(
           builder: (state) {
             final field = state as DateTimeFormFieldState;
@@ -62,7 +63,7 @@ class DateTimeFormField extends FormField<DateTime?> {
 
             return UnmanagedRestorationScope(
               bucket: field.bucket,
-              child: DateTimeTextField(
+              child: DateTimeTextField.allRequired(
                 key: field._fieldKey,
                 controller: field._effectiveController,
                 decoration: effectiveDecoration.copyWith(
@@ -77,6 +78,8 @@ class DateTimeFormField extends FormField<DateTime?> {
                     ? (_) async => showDatePickerHandler?.call()
                     : null,
                 invalidDateFormatLabel: invalidDateFormatLabel,
+                restorationId: restorationId,
+                calenderIcon: calenderIcon,
               ),
             );
           },
@@ -94,6 +97,7 @@ class DateTimeFormField extends FormField<DateTime?> {
   final DateTime? Function(String value)? parseDate;
   final TextInputType? keyboardType;
   final String? invalidDateFormatLabel;
+  final Widget? calenderIcon;
 
   @override
   DateTimeFormFieldState createState() {
@@ -224,6 +228,10 @@ class _DateTimeFormFieldWithMaterialPicker extends DateTimeFormField {
     RouteSettings? datePickerDialogRouteSettings,
     super.onChanged,
     super.formatFromDate,
+    super.parseDate,
+    super.calenderIcon,
+    super.invalidDateFormatLabel,
+    super.keyboardType,
   }) : super(
             showTimePicker: (DateTimeFormFieldState state) => showDatePicker(
                   context: state.context,
@@ -256,6 +264,10 @@ class _DateTimeFormFieldWithCupertinoPicker extends DateTimeFormField {
     super.onChanged,
     super.formatFromDate,
     super.controller,
+    super.parseDate,
+    super.calenderIcon,
+    super.invalidDateFormatLabel,
+    super.keyboardType,
     DateTime? firstDate,
     DateTime? lastDate,
     ValueChanged<DateTime>? onDatePickerChanged,

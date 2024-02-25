@@ -106,6 +106,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     _ListItem(
+                      title: 'Customize calenderIcon',
+                      child: DateTimeFormField.materialPicker(
+                        firstDate: firstDate,
+                        lastDate: lastDate,
+                        calenderIcon: const Icon(Icons.thumb_up),
+                      ),
+                    ),
+                    _ListItem(
                       title: 'Set initialValue',
                       child: DateTimeFormField(initialValue: now),
                     ),

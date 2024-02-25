@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 import '../controller/date_time_editing_controller.dart';
 
@@ -18,6 +19,23 @@ class DateTimeTextField extends StatefulWidget {
     AutovalidateMode? autovalidateMode,
     this.keyboardType,
     this.invalidDateFormatLabel,
+    this.calenderIcon,
+  }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
+
+  @internal
+  const DateTimeTextField.allRequired({
+    required super.key,
+    required this.controller,
+    required this.decoration,
+    required this.formatFromDate,
+    required this.restorationId,
+    required this.showDatePicker,
+    required this.onChanged,
+    required this.parseDate,
+    required AutovalidateMode? autovalidateMode,
+    required this.keyboardType,
+    required this.invalidDateFormatLabel,
+    required this.calenderIcon,
   }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   final DateTimeEditingController? controller;
@@ -30,6 +48,7 @@ class DateTimeTextField extends StatefulWidget {
   final DateTime? Function(String value)? parseDate;
   final TextInputType? keyboardType;
   final String? invalidDateFormatLabel;
+  final Widget? calenderIcon;
 
   @override
   State<DateTimeTextField> createState() => DateTimeTextFieldState();
@@ -60,7 +79,7 @@ class DateTimeTextField extends StatefulWidget {
 
 class DateTimeTextFieldState extends State<DateTimeTextField> {
   late final DateTimeEditingController _controller;
-  final _key = GlobalKey<_FieldState>();
+  final _key = GlobalKey<_TextFieldState>();
 
   String _format(DateTime date) {
     var format = widget.formatFromDate != null
@@ -114,11 +133,11 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
     if (widget.showDatePicker case final showDatePicker?) {
       suffixIcon = IconButton(
         onPressed: () => showDatePicker(_controller.value),
-        icon: const Icon(Icons.calendar_month),
+        icon: widget.calenderIcon ?? const Icon(Icons.calendar_today),
       );
     }
 
-    return _Field(
+    return _TextField(
       key: _key,
       initialText: _controller.value != null ? _format(_controller.value!) : '',
       restorationId: widget.restorationId,
@@ -140,8 +159,8 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
 }
 
 /// customized [InputDatePickerFormField]
-class _Field extends StatefulWidget {
-  const _Field({
+class _TextField extends StatefulWidget {
+  const _TextField({
     super.key,
     required this.initialText,
     required this.restorationId,
@@ -163,10 +182,10 @@ class _Field extends StatefulWidget {
   final String? invalidDateFormatLabel;
 
   @override
-  State<_Field> createState() => _FieldState();
+  State<_TextField> createState() => _TextFieldState();
 }
 
-class _FieldState extends State<_Field> {
+class _TextFieldState extends State<_TextField> {
   String? _errorText;
   bool _hasInteractedByUser = false;
 
