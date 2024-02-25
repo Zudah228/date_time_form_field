@@ -19,7 +19,7 @@ class DateTimeTextField extends StatefulWidget {
     AutovalidateMode? autovalidateMode,
     this.keyboardType,
     this.invalidDateFormatLabel,
-    this.calenderIcon,
+    this.calenderIcon, this.autofocus = false, this.clipBehavior = Clip.hardEdge,
   }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   @internal
@@ -35,7 +35,7 @@ class DateTimeTextField extends StatefulWidget {
     required AutovalidateMode? autovalidateMode,
     required this.keyboardType,
     required this.invalidDateFormatLabel,
-    required this.calenderIcon,
+    required this.calenderIcon, required this.autofocus, required this.clipBehavior,
   }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   final DateTimeEditingController? controller;
@@ -49,6 +49,8 @@ class DateTimeTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final String? invalidDateFormatLabel;
   final Widget? calenderIcon;
+  final bool autofocus;
+  final Clip clipBehavior;
 
   @override
   State<DateTimeTextField> createState() => DateTimeTextFieldState();
@@ -65,15 +67,18 @@ class DateTimeTextField extends StatefulWidget {
     properties.add(DiagnosticsProperty<String>('restorationId', restorationId));
     properties.add(DiagnosticsProperty<
         FutureOr<DateTime?> Function(
-            DateTime? currentValue)>('showDatePicker', showDatePicker));
+            DateTime? currentValue)>('showDatePicker', showDatePicker),);
     properties.add(
-        DiagnosticsProperty<ValueChanged<DateTime?>>('onChanged', onChanged));
+        DiagnosticsProperty<ValueChanged<DateTime?>>('onChanged', onChanged),);
     properties.add(DiagnosticsProperty<AutovalidateMode>(
         'autovalidateMode', autovalidateMode));
     properties.add(DiagnosticsProperty<DateTime? Function(String value)>(
-        'parseDate', parseDate));
+        'parseDate', parseDate),);
     properties
-        .add(DiagnosticsProperty<TextInputType>('keyboardType', keyboardType));
+        .add(DiagnosticsProperty<TextInputType>('keyboardType', keyboardType),);
+    properties.add(DiagnosticsProperty<bool>('autofocus', autofocus));
+    properties
+        .add(DiagnosticsProperty<Clip>('clipBehavior', clipBehavior),);
   }
 }
 
@@ -153,7 +158,8 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
         }
       },
       keyboardType: widget.keyboardType,
-      invalidDateFormatLabel: widget.invalidDateFormatLabel,
+      invalidDateFormatLabel: widget.invalidDateFormatLabel, autofocus: widget.autofocus,
+      clipBehavior: widget.clipBehavior,
     );
   }
 }
@@ -169,7 +175,7 @@ class _TextField extends StatefulWidget {
     required this.autovalidateMode,
     required this.parseDate,
     required this.keyboardType,
-    required this.invalidDateFormatLabel,
+    required this.invalidDateFormatLabel, required this.autofocus, required this.clipBehavior,
   });
 
   final String initialText;
@@ -180,6 +186,8 @@ class _TextField extends StatefulWidget {
   final DateTime? Function(String value)? parseDate;
   final TextInputType? keyboardType;
   final String? invalidDateFormatLabel;
+  final bool autofocus;
+  final Clip clipBehavior;
 
   @override
   State<_TextField> createState() => _TextFieldState();
@@ -256,6 +264,71 @@ class _TextFieldState extends State<_TextField> {
       ),
       keyboardType: TextInputType.datetime,
       onChanged: _onChanged,
+      autofocus: widget.autofocus,
+      clipBehavior: widget.clipBehavior,
+      // TODO(Zudah228): 全て設定する
+      // expands: ,
+      // readOnly: ,
+      // onTap: ,
+      // onEditingComplete: ,
+      // onSubmitted: ,
+      // focusNode: ,
+      // magnifierConfiguration: ,
+      // style: ,
+      // textInputAction: ,
+      // autofillHints: ,
+      // autocorrect: ,
+      // canRequestFocus: ,
+      // contentInsertionConfiguration: , 
+      // contextMenuBuilder: ,
+      // cursorColor: ,
+      // cursorErrorColor: ,
+      // cursorHeight: ,
+      // cursorOpacityAnimates: , 
+      // cursorRadius: ,
+      // cursorWidth: ,
+      // dragStartBehavior: ,
+      // enableIMEPersonalizedLearning: ,
+      // enableInteractiveSelection: ,
+      // enableSuggestions: ,
+      // enabled: ,
+      // ignorePointers: ,
+      // inputFormatters: ,
+      // keyboardAppearance: ,
+      // mouseCursor: ,
+      // obscureText: ,
+      // obscuringCharacter: ,
+      // onAppPrivateCommand: ,
+      // onTapAlwaysCalled: ,
+      // onTapOutside: ,
+      // scribbleEnabled: ,
+      // scrollController: ,
+      // scrollPadding: ,
+      // scrollPhysics: ,
+      // selectionControls: ,
+      // selectionHeightStyle: ,
+      // selectionWidthStyle: ,
+       
+      // showCursor: ,
+      // smartDashesType: ,
+      // smartQuotesType: ,
+      // spellCheckConfiguration: ,
+      // statesController: ,
+      // strutStyle: ,
+      // textAlign: ,
+      // textAlignVertical: ,
+      // textCapitalization: ,
+      // textDirection: ,
+      // toolbarOptions: ,
+      // undoController: ,
+
+      // 意図的にカスタマイズ可能にしないもの
+      key: null,
+      buildCounter: null,
+      maxLength: null,
+      maxLengthEnforcement: null,
+      maxLines: 1,
+      minLines: 1,
     );
   }
 }

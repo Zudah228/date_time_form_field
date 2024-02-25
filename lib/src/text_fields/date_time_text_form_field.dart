@@ -24,6 +24,8 @@ class DateTimeTextFormField extends FormField<DateTime?> {
     this.keyboardType,
     this.invalidDateFormatLabel,
     this.calenderIcon,
+    this.autofocus = false,
+    this.clipBehavior = Clip.hardEdge,
   }) : super(
           builder: (state) {
             final field = state as DateTimeTextFormFieldState;
@@ -80,6 +82,8 @@ class DateTimeTextFormField extends FormField<DateTime?> {
                 invalidDateFormatLabel: invalidDateFormatLabel,
                 restorationId: restorationId,
                 calenderIcon: calenderIcon,
+                autofocus: autofocus,
+                clipBehavior: clipBehavior,
               ),
             );
           },
@@ -98,6 +102,8 @@ class DateTimeTextFormField extends FormField<DateTime?> {
   final TextInputType? keyboardType;
   final String? invalidDateFormatLabel;
   final Widget? calenderIcon;
+  final bool autofocus;
+  final Clip clipBehavior;
 
   @override
   DateTimeTextFormFieldState createState() {
