@@ -26,6 +26,9 @@ class DateTimeTextFormField extends FormField<DateTime?> {
     this.calenderIcon,
     this.autofocus = false,
     this.clipBehavior = Clip.hardEdge,
+    this.expands = false,
+    this.maxLines,
+    this.minLines,
   }) : super(
           builder: (state) {
             final field = state as DateTimeTextFormFieldState;
@@ -84,6 +87,9 @@ class DateTimeTextFormField extends FormField<DateTime?> {
                 calenderIcon: calenderIcon,
                 autofocus: autofocus,
                 clipBehavior: clipBehavior,
+                expands: expands,
+                maxLines: maxLines,
+                minLines: minLines,
               ),
             );
           },
@@ -104,6 +110,9 @@ class DateTimeTextFormField extends FormField<DateTime?> {
   final Widget? calenderIcon;
   final bool autofocus;
   final Clip clipBehavior;
+  final bool expands;
+  final int? maxLines;
+  final int? minLines;
 
   @override
   DateTimeTextFormFieldState createState() {

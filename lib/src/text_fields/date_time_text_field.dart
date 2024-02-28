@@ -19,7 +19,12 @@ class DateTimeTextField extends StatefulWidget {
     AutovalidateMode? autovalidateMode,
     this.keyboardType,
     this.invalidDateFormatLabel,
-    this.calenderIcon, this.autofocus = false, this.clipBehavior = Clip.hardEdge,
+    this.calenderIcon,
+    this.autofocus = false,
+    this.clipBehavior = Clip.hardEdge,
+    this.expands = false,
+    this.maxLines,
+    this.minLines,
   }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   @internal
@@ -35,7 +40,12 @@ class DateTimeTextField extends StatefulWidget {
     required AutovalidateMode? autovalidateMode,
     required this.keyboardType,
     required this.invalidDateFormatLabel,
-    required this.calenderIcon, required this.autofocus, required this.clipBehavior,
+    required this.calenderIcon,
+    required this.autofocus,
+    required this.clipBehavior,
+    required this.expands,
+    required this.maxLines,
+    required this.minLines,
   }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
 
   final DateTimeEditingController? controller;
@@ -51,6 +61,9 @@ class DateTimeTextField extends StatefulWidget {
   final Widget? calenderIcon;
   final bool autofocus;
   final Clip clipBehavior;
+  final bool expands;
+  final int? maxLines;
+  final int? minLines;
 
   @override
   State<DateTimeTextField> createState() => DateTimeTextFieldState();
@@ -65,20 +78,29 @@ class DateTimeTextField extends StatefulWidget {
     properties.add(DiagnosticsProperty<String Function(DateTime date)>(
         'formatFromDate', formatFromDate));
     properties.add(DiagnosticsProperty<String>('restorationId', restorationId));
-    properties.add(DiagnosticsProperty<
-        FutureOr<DateTime?> Function(
-            DateTime? currentValue)>('showDatePicker', showDatePicker),);
     properties.add(
-        DiagnosticsProperty<ValueChanged<DateTime?>>('onChanged', onChanged),);
+      DiagnosticsProperty<FutureOr<DateTime?> Function(DateTime? currentValue)>(
+          'showDatePicker', showDatePicker),
+    );
+    properties.add(
+      DiagnosticsProperty<ValueChanged<DateTime?>>('onChanged', onChanged),
+    );
     properties.add(DiagnosticsProperty<AutovalidateMode>(
         'autovalidateMode', autovalidateMode));
-    properties.add(DiagnosticsProperty<DateTime? Function(String value)>(
-        'parseDate', parseDate),);
-    properties
-        .add(DiagnosticsProperty<TextInputType>('keyboardType', keyboardType),);
+    properties.add(
+      DiagnosticsProperty<DateTime? Function(String value)>(
+          'parseDate', parseDate),
+    );
+    properties.add(
+      DiagnosticsProperty<TextInputType>('keyboardType', keyboardType),
+    );
     properties.add(DiagnosticsProperty<bool>('autofocus', autofocus));
-    properties
-        .add(DiagnosticsProperty<Clip>('clipBehavior', clipBehavior),);
+    properties.add(
+      DiagnosticsProperty<Clip>('clipBehavior', clipBehavior),
+    );
+    properties.add(DiagnosticsProperty<bool>('expands', expands));
+    properties.add(DiagnosticsProperty<int?>('maxLines', maxLines));
+    properties.add(DiagnosticsProperty<int?>('minLines', minLines));
   }
 }
 
@@ -158,8 +180,12 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
         }
       },
       keyboardType: widget.keyboardType,
-      invalidDateFormatLabel: widget.invalidDateFormatLabel, autofocus: widget.autofocus,
+      invalidDateFormatLabel: widget.invalidDateFormatLabel,
+      autofocus: widget.autofocus,
       clipBehavior: widget.clipBehavior,
+      expands: widget.expands,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
     );
   }
 }
@@ -175,7 +201,12 @@ class _TextField extends StatefulWidget {
     required this.autovalidateMode,
     required this.parseDate,
     required this.keyboardType,
-    required this.invalidDateFormatLabel, required this.autofocus, required this.clipBehavior,
+    required this.invalidDateFormatLabel,
+    required this.autofocus,
+    required this.clipBehavior,
+    required this.expands,
+    required this.maxLines,
+    required this.minLines,
   });
 
   final String initialText;
@@ -188,6 +219,9 @@ class _TextField extends StatefulWidget {
   final String? invalidDateFormatLabel;
   final bool autofocus;
   final Clip clipBehavior;
+  final bool expands;
+  final int? maxLines;
+  final int? minLines;
 
   @override
   State<_TextField> createState() => _TextFieldState();
@@ -266,8 +300,10 @@ class _TextFieldState extends State<_TextField> {
       onChanged: _onChanged,
       autofocus: widget.autofocus,
       clipBehavior: widget.clipBehavior,
+      expands: widget.expands,
+      maxLines: widget.maxLines,
+      minLines: widget.minLines,
       // TODO(Zudah228): 全て設定する
-      // expands: ,
       // readOnly: ,
       // onTap: ,
       // onEditingComplete: ,
@@ -279,12 +315,12 @@ class _TextFieldState extends State<_TextField> {
       // autofillHints: ,
       // autocorrect: ,
       // canRequestFocus: ,
-      // contentInsertionConfiguration: , 
+      // contentInsertionConfiguration: ,
       // contextMenuBuilder: ,
       // cursorColor: ,
       // cursorErrorColor: ,
       // cursorHeight: ,
-      // cursorOpacityAnimates: , 
+      // cursorOpacityAnimates: ,
       // cursorRadius: ,
       // cursorWidth: ,
       // dragStartBehavior: ,
@@ -308,7 +344,7 @@ class _TextFieldState extends State<_TextField> {
       // selectionControls: ,
       // selectionHeightStyle: ,
       // selectionWidthStyle: ,
-       
+
       // showCursor: ,
       // smartDashesType: ,
       // smartQuotesType: ,
@@ -327,8 +363,6 @@ class _TextFieldState extends State<_TextField> {
       buildCounter: null,
       maxLength: null,
       maxLengthEnforcement: null,
-      maxLines: 1,
-      minLines: 1,
     );
   }
 }

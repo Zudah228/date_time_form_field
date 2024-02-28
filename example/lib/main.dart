@@ -4,6 +4,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 
+import 'pages/text_field_behavior_page.dart';
+
 void main() {
   Intl.defaultLocale = 'ja_JP';
 
@@ -85,10 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: const Text('Reset'),
                     ),
                     const Gap(16),
-                    Text(
-                      'Basic',
-                      style: theme.textTheme.headlineMedium,
-                    ),
+                    const _Headline1('Basic'),
                     const Gap(8),
                     _ListItem(
                       title: 'Primitive use',
@@ -188,10 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     const Gap(16),
-                    Text(
-                      'Validation',
-                      style: theme.textTheme.headlineMedium,
-                    ),
+                    const _Headline1('Validation'),
                     const Gap(8),
                     Align(
                       alignment: AlignmentDirectional.centerStart,
@@ -230,10 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 : null,
                       ),
                     ),
-                    Text(
-                      'Decoration',
-                      style: theme.textTheme.headlineMedium,
-                    ),
+                    const _Headline1('Decoration'),
                     const Gap(8),
                     _ListItem(
                       title: 'Filled',
@@ -261,6 +254,19 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                     ),
+                    const _Headline1('Others'),
+                    const Gap(8),
+                    Wrap(
+                      children: [
+                        FilledButton(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .push(TextFieldBehaviorPage.route());
+                          },
+                          child: const Text('TextField'),
+                        )
+                      ],
+                    ),
                   ],
                 );
               },
@@ -268,6 +274,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Headline1 extends StatelessWidget {
+  const _Headline1(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Text(
+      text,
+      style: theme.textTheme.headlineMedium,
     );
   }
 }
