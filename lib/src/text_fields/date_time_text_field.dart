@@ -25,7 +25,7 @@ class DateTimeTextField extends StatefulWidget {
     this.expands = false,
     this.maxLines,
     this.minLines,
-  }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
+  }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.onUserInteraction;
 
   @internal
   const DateTimeTextField.allRequired({
