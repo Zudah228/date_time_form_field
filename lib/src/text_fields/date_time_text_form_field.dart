@@ -11,6 +11,9 @@ class DateTimeTextFormField extends FormField<DateTime?> {
     super.key,
     this.showTimePicker,
     this.controller,
+
+    /// if [AutovalidateMode.disabled], format errorText triggered onUserInteraction.
+    /// Use [formatAutovalidateMode], when you want to customize.
     super.autovalidateMode,
     super.enabled,
     super.initialValue,
@@ -29,6 +32,7 @@ class DateTimeTextFormField extends FormField<DateTime?> {
     this.expands = false,
     this.maxLines,
     this.minLines,
+    this.formatAutovalidateMode = AutovalidateMode.onUserInteraction,
   }) : super(
           builder: (state) {
             final field = state as DateTimeTextFormFieldState;
@@ -74,7 +78,7 @@ class DateTimeTextFormField extends FormField<DateTime?> {
                 decoration: effectiveDecoration.copyWith(
                   errorText: field.errorText,
                 ),
-                autovalidateMode: autovalidateMode,
+                autovalidateMode: formatAutovalidateMode,
                 onChanged: onChangedHandler,
                 formatFromDate: formatFromDate,
                 parseDate: parseDate,
@@ -113,6 +117,7 @@ class DateTimeTextFormField extends FormField<DateTime?> {
   final bool expands;
   final int? maxLines;
   final int? minLines;
+  final AutovalidateMode formatAutovalidateMode;
 
   @override
   DateTimeTextFormFieldState createState() {
