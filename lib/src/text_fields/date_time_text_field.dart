@@ -25,7 +25,8 @@ class DateTimeTextField extends StatefulWidget {
     this.expands = false,
     this.maxLines,
     this.minLines,
-  }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.onUserInteraction;
+  }) : autovalidateMode =
+            autovalidateMode ?? AutovalidateMode.onUserInteraction;
 
   @internal
   const DateTimeTextField.allRequired({
@@ -46,7 +47,8 @@ class DateTimeTextField extends StatefulWidget {
     required this.expands,
     required this.maxLines,
     required this.minLines,
-  }) : autovalidateMode = autovalidateMode ?? AutovalidateMode.disabled;
+  }) : autovalidateMode =
+            autovalidateMode ?? AutovalidateMode.onUserInteraction;
 
   final DateTimeEditingController? controller;
   final InputDecoration? decoration;
@@ -125,7 +127,9 @@ class DateTimeTextFieldState extends State<DateTimeTextField> {
     final formatted =
         _controller.value != null ? _format(_controller.value!) : '';
 
-    _key.currentState!._textEditingController.text = formatted;
+    if (_key.currentState!._textEditingController.text != formatted) {
+      _key.currentState!._textEditingController.text = formatted;
+    }
   }
 
   void clear() {
@@ -233,7 +237,7 @@ class _TextFieldState extends State<_TextField> {
 
   late final TextEditingController _textEditingController;
 
-  String get _invalidDateFormatLabel =>
+  String _invalidDateFormatLabel() =>
       widget.invalidDateFormatLabel ??
       MaterialLocalizations.of(context).invalidDateFormatLabel;
 
@@ -244,7 +248,7 @@ class _TextFieldState extends State<_TextField> {
   bool _validate() {
     if (_textEditingController.text.isNotEmpty &&
         _parseDate(_textEditingController.text) == null) {
-      _errorText = _invalidDateFormatLabel;
+      _errorText = _invalidDateFormatLabel();
     } else {
       _errorText = null;
     }

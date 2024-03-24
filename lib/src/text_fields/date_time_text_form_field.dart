@@ -33,7 +33,8 @@ class DateTimeTextFormField extends FormField<DateTime?> {
     this.maxLines,
     this.minLines,
     this.formatAutovalidateMode = AutovalidateMode.onUserInteraction,
-  }) : super(
+  })  : assert(initialValue == null || controller == null),
+        super(
           builder: (state) {
             final field = state as DateTimeTextFormFieldState;
 
