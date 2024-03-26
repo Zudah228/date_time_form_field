@@ -58,9 +58,7 @@ class DateTimeTextFormField extends FormField<DateTime?> {
                     field.validate();
                 }
                 if (result != null) {
-                  field
-                    ..didChange(result)
-                    ..setValue(result);
+                  field.didChange(result);
                 }
                 return result;
               };
@@ -166,11 +164,6 @@ class DateTimeTextFormFieldState extends FormFieldState<DateTime?> {
     if (_effectiveController.needChange(value)) {
       didChange(_effectiveController.value);
     }
-  }
-
-  @override
-  void setValue(DateTime? value) {
-    super.setValue(value);
   }
 
   @override
